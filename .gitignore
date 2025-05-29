@@ -1,0 +1,4 @@
+comebacksunday/mysite/db_secrets.py
+**/__pycache__/
+.mypy_cache/
+venv/
