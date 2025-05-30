@@ -43,3 +43,10 @@ def feed(request, username) -> HttpResponse:
         'posts/feed.html',
         context={ 'posts': posts } 
     )
+
+def post(request, post_id) -> HttpResponse:
+    return render(
+        request,
+        'posts/post.html',
+        context={ 'post': get_object_or_404(Post, pk=post_id) }
+    )
