@@ -10,7 +10,7 @@ def following(request, username) -> HttpResponse:
     return render(
         request, 
         'posts/following.html', 
-        context={ 'following': user.following }
+        context={ 'following': user.following.all() }
     )
 
 def user_overview(request, username) -> HttpResponse:
@@ -33,7 +33,7 @@ def feed(request, username) -> HttpResponse:
     """
     user = get_object_or_404(User, pk=username)
     # Get all posts in this user's following list, put in reverse chronological order
-    posts = Post.objects.filter(author__in=user.following).order_by('-datetime')
+    posts = Post.objects.filter(author__in=user.following.all()).order_by('-datetime').all()
     return render(
         request,
         'posts/feed.html',
