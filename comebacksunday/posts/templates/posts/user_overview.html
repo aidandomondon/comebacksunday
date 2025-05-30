@@ -3,7 +3,7 @@
         username: {{username}},
         bio: {{bio}},
         posts: [
-            {% for post in {{posts}} %}
+            {% for post in posts %}
                 {
                     content: {{post.content}},
                     datetime: {{post.datetime}}
