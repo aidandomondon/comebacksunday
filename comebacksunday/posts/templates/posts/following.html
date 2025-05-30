@@ -1,0 +1,9 @@
+<p>
+    {
+        following: [
+            {% for user in following %}
+            {{user.username}}
+            {% endfor %},
+        ]
+    }
+</p>

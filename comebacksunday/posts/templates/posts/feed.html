@@ -1,0 +1,13 @@
+<p>
+    {
+        posts: [
+            {% for post in posts %}
+                {
+                    author: {{post.author}},
+                    content: {{post.content}},
+                    datetime: {{post.datetime}}
+                }
+            {% endfor %},
+        ]
+    }
+</p>

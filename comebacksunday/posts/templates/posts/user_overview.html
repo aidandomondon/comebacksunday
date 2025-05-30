@@ -1,0 +1,14 @@
+<p>
+    {
+        username: user.username,
+        bio: user.bio,
+        posts: [
+            {% for post in user.post_set %}
+                {
+                    content: {{post.content}},
+                    datetime: {{post.datetime}}
+                }
+            {% endfor %},
+        ]
+    }
+</p>
