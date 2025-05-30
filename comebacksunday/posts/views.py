@@ -64,7 +64,7 @@ def post(request, post_id) -> HttpResponse:
         context={ 'post': get_object_or_404(Post, pk=post_id) }
     )
 
-def create_user(request) -> HttpResponse:
+def create_user_form(request) -> HttpResponse:
     return render(request, 'posts/create_user_form.html')
 
 def create_user(request, username, email, password, bio) -> HttpResponse:
