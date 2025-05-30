@@ -1,10 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class User(models.Model):
+class ExtendedUser(models.Model):
     """
     Represents a user of the website.
     """
-    username = models.CharField(primary_key=True, unique=True, max_length=75)
+    user = models.OneToOneField(
+        User, 
+        primary_key=True, 
+        on_delete=models.CASCADE,
+        related_name='extendeduser'
+    )
     bio = models.TextField(max_length=100, verbose_name="Short self-description of user.")
     following = models.ManyToManyField(
         "self", 
@@ -26,7 +32,7 @@ class User(models.Model):
     )
 
     def __str__(self):
-        return self.username
+        return self.user.username
 
 
 class Post(models.Model):
@@ -34,7 +40,7 @@ class Post(models.Model):
     Represents a post made by a user.
     """
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Author of this post")
+    author = models.ForeignKey(ExtendedUser, on_delete=models.CASCADE, verbose_name="Author of this post")
     content = models.TextField(max_length=280)
     datetime = models.DateTimeField(
         auto_now_add=True, # automatically use the date of this row's creation as this row's datetime

@@ -1,16 +1,21 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
+from django.db.utils import IntegrityError
 from django.shortcuts import render, get_object_or_404
-from .models import User, Post
+from django.contrib.auth.models import User
+from .models import ExtendedUser, Post
 
 def following(request, username) -> HttpResponse:
     """
     Serves the username of every user the specified user follows.
     """
-    user = get_object_or_404(User, pk=username)
+    try:
+        extended_user = ExtendedUser.objects.get(user_username=username)
+    except ExtendedUser.DoesNotExist:
+        raise Http404(f"User {username} does not exist.")
     return render(
         request, 
         'posts/following.html', 
-        context={ 'following': user.following.all() }
+        context={ 'following': extended_user.following.all() }
     )
 
 def user_overview(request, username) -> HttpResponse:
@@ -18,14 +23,17 @@ def user_overview(request, username) -> HttpResponse:
     Serves important information about the specified user
     and all posts they have made.
     """
-    user = get_object_or_404(User, pk=username)
+    try:
+        extended_user = ExtendedUser.objects.get(user_username=username)
+    except ExtendedUser.DoesNotExist:
+        raise Http404(f"User {username} does not exist.")
     return render(
         request,
         'posts/user_overview.html',
         context={ 
-            'username': user.username,
-            'bio': user.bio,
-            'posts': user.post_set.all()
+            'username': extended_user.user.username,
+            'bio': extended_user.bio,
+            'posts': extended_user.post_set.all()
         }
     )
 
@@ -35,9 +43,14 @@ def feed(request, username) -> HttpResponse:
     """
     Serves posts from the users the specified user follows.
     """
-    user = get_object_or_404(User, pk=username)
+    try:
+        extended_user = ExtendedUser.objects.get(user_username=username)
+    except ExtendedUser.DoesNotExist:
+        raise Http404(f"User {username} does not exist.")
     # Get all posts in this user's following list, put in reverse chronological order
-    posts = Post.objects.filter(author__in=user.following.all()).order_by('-datetime').all()
+    posts = Post.objects \
+        .filter(author__in=extended_user.following.all()) \
+        .order_by('-datetime').all()
     return render(
         request,
         'posts/feed.html',
@@ -50,3 +63,14 @@ def post(request, post_id) -> HttpResponse:
         'posts/post.html',
         context={ 'post': get_object_or_404(Post, pk=post_id) }
     )
+
+def create_user(request, username, email, password, bio) -> HttpResponse:
+    try:
+        user = User.objects.create_user(username, email, password)
+        ExtendedUser.objects.create(
+            user=user,
+            bio=bio
+        )
+        return HttpResponse('Success.')
+    except IntegrityError as e:
+        return HttpResponse(e.__str__())
