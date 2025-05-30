@@ -25,7 +25,7 @@ def user_overview(request, username) -> HttpResponse:
         context={ 
             'username': user.username,
             'bio': user.bio,
-            'posts': user.post_set
+            'posts': user.post_set.all()
         }
     )
 
