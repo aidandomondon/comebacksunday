@@ -1,9 +1,9 @@
 <p>
     {
-        username: user.username,
-        bio: user.bio,
+        username: {{username}},
+        bio: {{bio}},
         posts: [
-            {% for post in user.post_set %}
+            {% for post in {{posts}} %}
                 {
                     content: {{post.content}},
                     datetime: {{post.datetime}}

@@ -22,7 +22,11 @@ def user_overview(request, username) -> HttpResponse:
     return render(
         request,
         'posts/user_overview.html',
-        context={ 'user': user }
+        context={ 
+            'username': user.username,
+            'bio': user.bio,
+            'posts': user.post_set
+        }
     )
 
 # Will return all posts ever made by every user the specified
