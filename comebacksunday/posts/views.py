@@ -3,6 +3,7 @@ from django.db.utils import IntegrityError
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
+from django.template.loader import r 
 
 def following(request, username) -> HttpResponse:
     """
@@ -63,6 +64,9 @@ def post(request, post_id) -> HttpResponse:
         'posts/post.html',
         context={ 'post': get_object_or_404(Post, pk=post_id) }
     )
+
+def create_user(request) -> HttpResponse:
+    return render(request, 'posts/create_user_form.html')
 
 def create_user(request, username, email, password, bio) -> HttpResponse:
     try:
