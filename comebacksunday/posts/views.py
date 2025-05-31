@@ -90,7 +90,7 @@ def create_user(request) -> HttpResponse:
     elif request.method == "POST":  # ...and "POST" if returning w/ data from a filled out form
         form = CreateExtendedUserForm(data=request.POST)
         if form.is_valid():
-            cleaned_data = form.cleaned_data()
+            cleaned_data = form.cleaned_data
             try:
                 user = User.objects.create_user(
                     username = cleaned_data["username"], 
