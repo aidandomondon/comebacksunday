@@ -1,8 +1,9 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from django.db.utils import IntegrityError
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
+from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
 
 def following(request, username) -> HttpResponse:
     """
@@ -64,16 +65,52 @@ def post(request, post_id) -> HttpResponse:
         context={ 'post': get_object_or_404(Post, pk=post_id) }
     )
 
-def create_user_form(request) -> HttpResponse:
-    return render(request, 'posts/create_user_form.html')
+# We are using a regular Form rather than a ModelForm because we
+# need to execute intermediate steps when constructing our ExtendedUser
+# (namely, creating the User that the ExtendedUser will have). ModelForms
+# are used when the Model can be created _directly_ from the arguments of the form. 
+class CreateExtendedUserForm(Form):
+    """
+    To create an ExtendedUser.
+    """
+    email = EmailField(widget=EmailInput)
+    username = CharField(max_length=75)
+    password = CharField(max_length=100, widget=PasswordInput)
+    bio = CharField(max_length=280, widget=Textarea)
 
-def create_user(request, username, email, password, bio) -> HttpResponse:
-    try:
-        user = User.objects.create_user(username, email, password)
-        ExtendedUser.objects.create(
-            user=user,
-            bio=bio
+
+def create_user(request) -> HttpResponse:
+    if request.method == "GET":     # Method is set to "GET" when starting a new form...
+        form = CreateExtendedUserForm()
+        return render(
+            request,
+            'posts/create_user.html',
+            context={ "form": form }
         )
-        return HttpResponse('Success.')
-    except IntegrityError as e:
-        return HttpResponse(e.__str__())
+    elif request.method == "POST":  # ...and "POST" if returning w/ data from a filled out form
+        form = CreateExtendedUserForm(data=request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data()
+            try:
+                user = User.objects.create_user(
+                    username = cleaned_data["username"], 
+                    email = cleaned_data["email"], 
+                    password = cleaned_data["password"],
+                )
+                ExtendedUser.objects.create(
+                    user = user,
+                    bio = cleaned_data["bio"],
+                )
+                return HttpResponse('Success.')
+            except IntegrityError as e:
+                return HttpResponse(e.__str__())
+        else:
+            # if not valid, return client the view again 
+            # (but still populated with in-progress entries)
+            return render(
+                request,
+                'posts/create_user.html',
+                context={ "form": form }
+            )
+    else:
+        return HttpResponseBadRequest(f"Unsupported HTTP method: {request.method}")
