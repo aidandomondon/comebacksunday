@@ -59,6 +59,9 @@ def feed(request, username) -> HttpResponse:
     )
 
 def post(request, post_id) -> HttpResponse:
+    """
+    Serves information about the post specified by its ID.
+    """
     return render(
         request,
         'posts/post.html',
@@ -71,7 +74,8 @@ def post(request, post_id) -> HttpResponse:
 # are used when the Model can be created _directly_ from the arguments of the form. 
 class CreateExtendedUserForm(Form):
     """
-    To create an ExtendedUser.
+    To ingest, store, validate, and clean input data for the form
+    that creates `ExtendedUser`s.
     """
     email = EmailField(widget=EmailInput)
     username = CharField(max_length=75)
@@ -80,6 +84,13 @@ class CreateExtendedUserForm(Form):
 
 
 def create_user(request) -> HttpResponse:
+    """
+    When called with the GET method:
+    - Serves the form to create `ExtendedUsers`
+    When called with the POST method (and data):
+    - takes in the data attempts to use it to create an `ExtendedUsers`
+    - if data is not valid, serves the form back up again.
+    """
     if request.method == "GET":     # Method is set to "GET" when starting a new form...
         form = CreateExtendedUserForm()
         return render(
