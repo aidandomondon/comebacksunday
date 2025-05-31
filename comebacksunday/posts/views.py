@@ -10,7 +10,7 @@ def following(request, username) -> HttpResponse:
     Serves the username of every user the specified user follows.
     """
     try:
-        extended_user = ExtendedUser.objects.get(user_username=username)
+        extended_user = ExtendedUser.objects.get(user__username=username)
     except ExtendedUser.DoesNotExist:
         raise Http404(f"User {username} does not exist.")
     return render(
@@ -25,7 +25,7 @@ def user_overview(request, username) -> HttpResponse:
     and all posts they have made.
     """
     try:
-        extended_user = ExtendedUser.objects.get(user_username=username)
+        extended_user = ExtendedUser.objects.get(user__username=username)
     except ExtendedUser.DoesNotExist:
         raise Http404(f"User {username} does not exist.")
     return render(
@@ -45,7 +45,7 @@ def feed(request, username) -> HttpResponse:
     Serves posts from the users the specified user follows.
     """
     try:
-        extended_user = ExtendedUser.objects.get(user_username=username)
+        extended_user = ExtendedUser.objects.get(user__username=username)
     except ExtendedUser.DoesNotExist:
         raise Http404(f"User {username} does not exist.")
     # Get all posts in this user's following list, put in reverse chronological order
