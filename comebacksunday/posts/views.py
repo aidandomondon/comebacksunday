@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
 from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 
 def following(request, username) -> HttpResponse:
     """
@@ -20,24 +21,25 @@ def following(request, username) -> HttpResponse:
         context={ 'following': extended_user.following.all() }
     )
 
+@login_required
 def user_overview(request, username) -> HttpResponse:
     """
     Serves important information about the specified user
     and all posts they have made.
     """
-    try:
+    if request.user.username == username:   # login_required decorator checks that user is logged in
         extended_user = ExtendedUser.objects.get(user__username=username)
-    except ExtendedUser.DoesNotExist:
-        raise Http404(f"User {username} does not exist.")
-    return render(
-        request,
-        'posts/user_overview.html',
-        context={ 
-            'username': extended_user.user.username,
-            'bio': extended_user.bio,
-            'posts': extended_user.post_set.all()
-        }
-    )
+        return render(
+            request,
+            'posts/user_overview.html',
+            context={ 
+                'username': extended_user.user.username,
+                'bio': extended_user.bio,
+                'posts': extended_user.post_set.all()
+            }
+        )
+    else:
+        raise Http404(f"Unauthorized.")
 
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
