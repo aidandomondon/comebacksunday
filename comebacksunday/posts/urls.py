@@ -4,7 +4,6 @@ from . import views
 app_name = 'posts'
 
 urlpatterns = [
-    path("accounts/", include('django.contrib.auth.urls')),
     path("create_user/", views.create_user, name='create_user'),
     path("post/<int:post_id>", views.post),
     path("user/<str:username>/profile", views.user_overview, name='profile'),

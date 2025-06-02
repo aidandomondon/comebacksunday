@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
     path('posts/', include("posts.urls")),
     path('login/', include("login.urls")),
     path('polls/', include("polls.urls")),  # Include all routes in the polls app
