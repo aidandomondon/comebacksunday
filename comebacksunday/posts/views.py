@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
 from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
+from django.contrib.auth import authenticate
 
 def following(request, username) -> HttpResponse:
     """
@@ -44,19 +45,25 @@ def feed(request, username) -> HttpResponse:
     """
     Serves posts from the users the specified user follows.
     """
-    try:
-        extended_user = ExtendedUser.objects.get(user__username=username)
-    except ExtendedUser.DoesNotExist:
-        raise Http404(f"User {username} does not exist.")
-    # Get all posts in this user's following list, put in reverse chronological order
-    posts = Post.objects \
-        .filter(author__in=extended_user.following.all()) \
-        .order_by('-datetime').all()
-    return render(
-        request,
-        'posts/feed.html',
-        context={ 'posts': posts } 
-    )
+    username = request.POST["username"]
+    password = request.POST["password"]
+    user = authenticate(request, username=username, password=password)
+    if user.is_authenticated():
+        try:
+            extended_user = ExtendedUser.objects.get(user__username=username)
+        except ExtendedUser.DoesNotExist:
+            raise Http404(f"User {username} does not exist.")
+        # Get all posts in this user's following list, put in reverse chronological order
+        posts = Post.objects \
+            .filter(author__in=extended_user.following.all()) \
+            .order_by('-datetime').all()
+        return render(
+            request,
+            'posts/feed.html',
+            context={ 'posts': posts } 
+        )
+    else:
+        return HttpResponse("You must log in.")
 
 def post(request, post_id) -> HttpResponse:
     """
