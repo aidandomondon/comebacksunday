@@ -5,7 +5,7 @@ from django.contrib.auth.views import LogoutView
 # Create your views here.
 def logout_view(request) -> HttpResponse:
     if request.method == "GET":
-        return render(request, 'posts/logout.html')
+        return render(request, 'registration/logout.html')
     elif request.method == "POST":
         return LogoutView.as_view()(request)
     else:
