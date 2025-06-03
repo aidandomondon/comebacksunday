@@ -7,19 +7,20 @@ from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput,
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
+@login_required
 def following(request, username) -> HttpResponse:
     """
     Serves the username of every user the specified user follows.
     """
-    try:
+    if request.user.username == username:
         extended_user = ExtendedUser.objects.get(user__username=username)
-    except ExtendedUser.DoesNotExist:
-        raise Http404(f"User {username} does not exist.")
-    return render(
-        request, 
-        'posts/following.html', 
-        context={ 'following': extended_user.following.all() }
-    )
+        return render(
+            request, 
+            'posts/following.html', 
+            context={ 'following': extended_user.following.all() }
+        )
+    else:
+        return HttpResponse('Unauthorized.')
 
 @login_required
 def user_overview(request, username) -> HttpResponse:
@@ -39,22 +40,17 @@ def user_overview(request, username) -> HttpResponse:
             }
         )
     else:
-        raise Http404(f"Unauthorized.")
+        return HttpResponse("Unauthorized.")
 
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
+@login_required
 def feed(request, username) -> HttpResponse:
     """
     Serves posts from the users the specified user follows.
     """
-    username = request.POST["username"]
-    password = request.POST["password"]
-    user = authenticate(request, username=username, password=password)
-    if user.is_authenticated():
-        try:
-            extended_user = ExtendedUser.objects.get(user__username=username)
-        except ExtendedUser.DoesNotExist:
-            raise Http404(f"User {username} does not exist.")
+    if request.user.username == username:
+        extended_user = ExtendedUser.objects.get(user__username=username)
         # Get all posts in this user's following list, put in reverse chronological order
         posts = Post.objects \
             .filter(author__in=extended_user.following.all()) \
@@ -65,7 +61,7 @@ def feed(request, username) -> HttpResponse:
             context={ 'posts': posts } 
         )
     else:
-        return HttpResponse("You must log in.")
+        return HttpResponse("Unauthorized.")
 
 def post(request, post_id) -> HttpResponse:
     """
