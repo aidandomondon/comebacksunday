@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
 from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
 from django.contrib.auth.decorators import login_required
-# from .forms import CreatePostForm
+from .forms import CreatePostForm
 
 @login_required
 def following(request, username) -> HttpResponse:
@@ -77,28 +77,27 @@ def post(request, post_id) -> HttpResponse:
         context={ 'post': get_object_or_404(Post, pk=post_id) }
     )
 
-# @login_required
-# def create_post(request) -> HttpResponse:
-#     """
-#     Creates a post from the logged-in user with the specified content.
-#     """
-#     if request.method == "GET":
-#         form = CreatePostForm()
-#         return render(request, 'posts/create_post.html', context={ 'form': form })
-#     elif request.method == "POST":
-#         form = CreatePostForm(data=request.POST)
-#         if form.is_valid():
-#             content = form.cleaned_data["content"]
-#             # Use user logged into session as author
-#             author = ExtendedUser.objects.get(user__username=request.user.username)
-#             Post.objects.create(content=content, author=author)
-#         else:
-#             # If submitted post is not valid (e.g. exceeds length), return back to form.
-#             return render(request, 'posts/create_post.html', context={ 'form': form })
-#     else:
-#         response = HttpResponse("Unsupported method.", headers = {"Allowed": "GET, POST"})
-#         response.status_code = 405
-#         return response
+@login_required
+def create_post(request) -> HttpResponse:
+    """
+    Creates a post from the logged-in user with the specified content.
+    """
+    if request.method == "GET":
+        form = CreatePostForm()
+        return render(request, 'posts/create_post.html', context={ 'form': form })
+    elif request.method == "POST":
+        form = CreatePostForm(data=request.POST)
+        if form.is_valid():
+            content = form.cleaned_data["content"] # Use user logged into session as author
+            author = ExtendedUser.objects.get(user__username=request.user.username)
+            Post.objects.create(content=content, author=author)
+        else:
+            # If submitted post is not valid (e.g. exceeds length), return back to form.
+            return render(request, 'posts/create_post.html', context={ 'form': form })
+    else:
+        response = HttpResponse("Unsupported method.", headers = {"Allowed": "GET, POST"})
+        response.status_code = 405
+        return response
 
 # TO-DO: Migrate user creation to the `registration` app
 
