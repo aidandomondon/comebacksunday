@@ -42,6 +42,10 @@ def user_overview(request, username) -> HttpResponse:
     else:
         return HttpResponse("Unauthorized.")
 
+# To-do: take out username from `feed` view arguments. Interpolate from session instead.
+# Note: we wouldn't want to also do this with user_overview or following since those should
+# be viewable by other users as well.
+
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
 @login_required
