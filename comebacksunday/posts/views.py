@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from .models import ExtendedUser, Post
 from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
 from django.contrib.auth.decorators import login_required
-from .forms import CreatePostForm
+# from .forms import CreatePostForm
 
 @login_required
 def following(request, username) -> HttpResponse:

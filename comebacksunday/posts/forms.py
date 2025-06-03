@@ -1,5 +1,5 @@
-from django.forms import Form, CharField, Textarea
-from .models import Post
+# from django.forms import Form, CharField, Textarea
+# from .models import Post
 
 # class CreatePostForm(Form):
 #     """
