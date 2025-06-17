@@ -1,7 +1,9 @@
-<p>
-    {
-        author: {{post.author}},
-        content: {{post.content}},
-        datetime: {{post.datetime}}
-    }
-</p>
+{% load static %}
+<div class="post">
+    <div class="post_header">
+        <h3 class="username">@{{post.author}}</h3>
+        <h3 class="timestamp">{{post.datetime.time}}</h3>
+    </div>
+    <p>{{post.content}}</p>
+</div>
+<link rel="stylesheet" href="{% static 'posts/post.css' %}">

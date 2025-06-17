@@ -1,5 +1,18 @@
-<form action="{% url 'posts:create_user' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Create User">
-</form>
+{% load static %}
+<html>
+    <body>
+        <h1 class="page_title">Create an Account</h1>
+        <form action="{% url 'posts:create_user' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" tabindex=0 value="Submit">
+        </form>
+        <form action="{% url 'registration:login' %}" method="get">
+            <label>
+                Already have an account?
+                <input type="submit" tabindex=0 value="Log in">
+            </label>
+        </form>
+    </body>
+    <link rel="stylesheet" href="{% static 'posts/create_user.css' %}">
+</html>
