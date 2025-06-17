@@ -1,3 +1,5 @@
+{% load static %}
+
 {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
 {% endif %}
@@ -13,6 +15,7 @@
     {% endif %}
 {% endif %}
 
+<h1 class="page_title">Log In</h1>
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
     <table>
@@ -26,6 +29,15 @@
         </tr>
     </table>
 
-    <input type="submit" value="login">
+    <input type="submit" value="Log in" tabindex="0">
     <input type="hidden" name="next" value="{{ next }}">
 </form>
+
+<!--Redirect new users to registration page-->
+<form action="{% url 'posts:create_user' %}">
+    <label>
+        Don't have an account yet?
+        <input type="submit" value="Create account" tabindex="0">
+    </label>
+</form>
+<link rel="stylesheet" href="{% static 'registration/login.css' %}">
