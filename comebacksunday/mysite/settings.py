@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from .db_secrets import USER, PASSWORD
+from .db_secrets import USER, PASSWORD, DEV_USER, DEV_PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-))3zqb2wugl^x724#6&y_z$9b6^)vo$@t)xk@5jfueeru)qt_y
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'comebacksunday.pythonanywhere.com'
+    'localhost',    # for dev
+    'comebacksunday.pythonanywhere.com' # for prod
 ]
 
 
@@ -78,7 +79,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'dev': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dev',    # name of the database
+        'USER': DEV_USER,
+        'PASSWORD': DEV_PASSWORD,
+        'HOST': 'localhost',
+    },
+    'prod': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'comebacksunday$default',    # name of the database
         'USER': USER,
@@ -87,6 +95,9 @@ DATABASES = {
     }
 }
 
+# Change here to toggle which of the databases will be used as the default.
+ACTIVE_DATABASE = 'dev'
+DATABASES['default'] = DATABASES[ACTIVE_DATABASE]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
