@@ -8,39 +8,33 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreatePostForm
 
 @login_required
-def following(request, username) -> HttpResponse:
+def following(request) -> HttpResponse:
     """
     Serves the username of every user the specified user follows.
     """
-    if request.user.username == username:
-        extended_user = ExtendedUser.objects.get(user__username=username)
-        return render(
-            request, 
-            'posts/following.html', 
-            context={ 'username': username, 'following': extended_user.following.all() }
-        )
-    else:
-        return HttpResponse('Unauthorized.')
+    username = request.user.username
+    extended_user = ExtendedUser.objects.get(user__username=username)
+    return render(
+        request, 
+        'posts/following.html', 
+        context={ 'username': username, 'following': extended_user.following.all() }
+    )
 
-@login_required
 def user_overview(request, username) -> HttpResponse:
     """
     Serves important information about the specified user
     and all posts they have made.
     """
-    if request.user.username == username:   # login_required decorator checks that user is logged in
-        extended_user = ExtendedUser.objects.get(user__username=username)
-        return render(
-            request,
-            'posts/user_overview.html',
-            context={ 
-                'username': extended_user.user.username,
-                'bio': extended_user.bio,
-                'posts': extended_user.post_set.all()
-            }
-        )
-    else:
-        return HttpResponse("Unauthorized.")
+    extended_user = ExtendedUser.objects.get(user__username=username)
+    return render(
+        request,
+        'posts/user_overview.html',
+        context={ 
+            'username': extended_user.user.username,
+            'bio': extended_user.bio,
+            'posts': extended_user.post_set.all()
+        }
+    )
 
 # To-do: take out username from `feed` view arguments. Interpolate from session instead.
 # Note: we wouldn't want to also do this with user_overview or following since those should
@@ -49,26 +43,24 @@ def user_overview(request, username) -> HttpResponse:
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
 @login_required
-def feed(request, username) -> HttpResponse:
+def feed(request) -> HttpResponse:
     """
     Serves posts from the users the specified user follows.
     """
-    if request.user.username == username:
-        extended_user = ExtendedUser.objects.get(user__username=username)
-        # Get all posts in this user's following list, put in reverse chronological order
-        posts = Post.objects \
-            .filter(author__in=extended_user.following.all()) \
-            .order_by('-datetime').all()
-        return render(
-            request,
-            'posts/feed.html',
-            context={ 
-                'username': username,
-                'posts': posts 
-            } 
-        )
-    else:
-        return HttpResponse("Unauthorized.")
+    username = request.user.username
+    extended_user = ExtendedUser.objects.get(user__username=username)
+    # Get all posts in this user's following list, put in reverse chronological order
+    posts = Post.objects \
+        .filter(author__in=extended_user.following.all()) \
+        .order_by('-datetime').all()
+    return render(
+        request,
+        'posts/feed.html',
+        context={ 
+            'username': username,
+            'posts': posts 
+        } 
+    )
 
 def post(request, post_id) -> HttpResponse:
     """
