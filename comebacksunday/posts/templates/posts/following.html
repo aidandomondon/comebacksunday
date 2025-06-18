@@ -16,13 +16,12 @@
                 </div>
                 <div class="add">
                     <h1>Add</h1>
-                    <p>Follow users by username.</p>
+                    <p>Ask a friend for their username and follow them!</p>
                     <form action="{% url 'posts:follow' %}" method="post">
                         {% csrf_token %}
                         <input type="text" placeholder="Username" name="followee_username">
                         <input type="submit" value="Follow" tabindex="0">
                     </form>
-                    <p>Why can't I browse users?</p>
                 </div>
             </div>
             <div class="sidebar">
