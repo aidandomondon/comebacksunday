@@ -16,9 +16,13 @@
                 </div>
                 <div class="add">
                     <h1>Add</h1>
+                    <p>Follow users by username.</p>
                     <form>
                         {% csrf_token %}
+                        <input type="text" placeholder="Username">
+                        <input type="submit" value="Follow">
                     </form>
+                    <p>Why can't I browse users?</p>
                 </div>
             </div>
             <div class="sidebar">

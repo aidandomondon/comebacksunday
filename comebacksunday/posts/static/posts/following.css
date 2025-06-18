@@ -37,7 +37,8 @@ body {
     padding: 1em;
     width: 75%;
 
-    h3, p {
+    h3,
+    p {
         margin-top: 0em;
         margin-bottom: 0em;
     }
@@ -64,4 +65,35 @@ h1.sidebar_item {
         /* color: white; */
         text-decoration-line: underline;
     }
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 0.25em;
+}
+
+input {
+    color: black;
+    background-color: white;
+    outline: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+}
+
+input:focus,
+input:active {
+    color: white;
+    background-color: black;
+}
+
+input:hover:not(:focus, :active) {
+    background-color: lightgray;
+}
+
+div:has(label) {
+    display: flex;
+    flex-direction: row;
 }
