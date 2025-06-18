@@ -1,7 +1,7 @@
 {% load static %}
 <div class="post">
     <div class="post_header">
-        <h3 class="username">@{{post.author}}</h3>
+        <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username %}">@{{post.author}}</a></h3>
         <h3 class="timestamp">{{post.datetime.time}}</h3>
     </div>
     <p>{{post.content}}</p>

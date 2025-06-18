@@ -76,3 +76,17 @@ h1.sidebar_item {
         text-decoration-line: underline;
     }
 }
+
+h3.username {
+    a {
+        color: black;
+        text-decoration: none;
+        text-decoration-line: none;
+        text-align: right;
+        text-wrap-mode: nowrap;
+    }
+
+    a:hover {
+        text-decoration-line: underline;
+    }
+}
