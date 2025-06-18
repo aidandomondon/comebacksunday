@@ -32,7 +32,9 @@ body {
 .post {
     background-color: white;
     color: black;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     border: solid black;
     padding: 1em;
     width: 75%;
@@ -41,8 +43,10 @@ body {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        width: 100%;
 
         h3 {
+            text-wrap-mode: nowrap;
             margin-top: 0em;
             margin-bottom: 0em;
         }
