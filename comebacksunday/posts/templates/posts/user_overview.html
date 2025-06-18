@@ -1,14 +1,21 @@
-<p>
-    {
-        username: {{username}},
-        bio: {{bio}},
-        posts: [
+{% load static %}
+<html>
+    <body>
+        <div class="header">
+            <h3 id="username">@{{username}}</h3>
+            <p id="bio">{{bio}}</p>
+        </div>
+        <div class="posts">
             {% for post in posts %}
-                {
-                    content: {{post.content}},
-                    datetime: {{post.datetime}}
-                }
-            {% endfor %},
-        ]
-    }
-</p>
+                <div class="post">
+                    <div class="post_header">
+                        <h3 class="username">@{{post.author}}</h3>
+                        <h3 class="timestamp">{{post.datetime.time}}</h3>
+                    </div>
+                    <p>{{post.content}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+    <link rel="stylesheet" href="{% static 'posts/user_overview.css' %}">
+</html>
