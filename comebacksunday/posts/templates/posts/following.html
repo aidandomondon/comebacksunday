@@ -9,7 +9,7 @@
                 <div class="profiles">
                     {% for extended_user in following %}
                         <div class="profile_card">
-                            <h3 class="username">@{{extended_user.user.username}}</h3>
+                            <h3 class="username"><a href="{% url 'posts:profile' username=extended_user.user.username%}">@{{extended_user.user.username}}</a></h3>
                             <p>{{extended_user.bio}}</p>
                         </div>
                     {% endfor %}
