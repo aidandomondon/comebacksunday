@@ -21,6 +21,20 @@ def following(request) -> HttpResponse:
         context={ 'username': username, 'following': extended_user.following.all() }
     )
 
+@login_required
+def follow(request) -> HttpResponse:
+    """
+    Makes the logged-in user follow the user specified in the POST data.
+    """
+    if request.method == 'POST':
+        follower = ExtendedUser.objects.get(user__username=request.user.username)
+        followee_username = request.POST["followee_username"]
+        followee = ExtendedUser.objects.get(user__username=followee_username)
+        follower.following.add(followee)
+        return HttpResponseRedirect(reverse('posts:following'))
+    else:
+        return HttpResponse("Unsupported HTTP method.")
+
 def user_overview(request, username) -> HttpResponse:
     """
     Serves important information about the specified user
