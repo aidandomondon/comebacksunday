@@ -9,8 +9,17 @@
                 <div class="profiles">
                     {% for extended_user in following %}
                         <div class="profile_card">
-                            <h3 class="username"><a href="{% url 'posts:profile' username=extended_user.user.username%}">@{{extended_user.user.username}}</a></h3>
-                            <p>{{extended_user.bio}}</p>
+                            <div class="profile_info">
+                                <h3 class="username"><a href="{% url 'posts:profile' username=extended_user.user.username%}">@{{extended_user.user.username}}</a></h3>
+                                <p>{{extended_user.bio}}</p>
+                            </div>
+                            <div class="unfollow">
+                                <form action="{% url 'posts:unfollow' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value={{extended_user.user.username}} name="followee_username">
+                                    <input type="submit" value="Stop following" tabindex="0">
+                                </form>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>

@@ -34,6 +34,19 @@ def follow(request) -> HttpResponse:
         return HttpResponseRedirect(reverse('posts:following'))
     else:
         return HttpResponse("Unsupported HTTP method.")
+    
+def unfollow(request) -> HttpResponse:
+    """
+    Removes the user specified in the POST data from the logged-in user's following list
+    """
+    if request.method == 'POST':
+        follower = ExtendedUser.objects.get(user__username=request.user.username)
+        followee_username = request.POST["followee_username"]
+        followee = ExtendedUser.objects.get(user__username=followee_username)
+        follower.following.remove(followee)
+        return HttpResponseRedirect(reverse('posts:following'))
+    else:
+        return HttpResponse("Unsupported HTTP method.")
 
 def user_overview(request, username) -> HttpResponse:
     """
