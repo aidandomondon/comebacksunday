@@ -1,4 +1,4 @@
-from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.db.utils import IntegrityError
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
@@ -6,6 +6,7 @@ from .models import ExtendedUser, Post
 from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput, Textarea
 from django.contrib.auth.decorators import login_required
 from .forms import CreatePostForm
+from django.urls import reverse
 
 @login_required
 def following(request) -> HttpResponse:
@@ -84,8 +85,10 @@ def create_post(request) -> HttpResponse:
         form = CreatePostForm(data=request.POST)
         if form.is_valid():
             content = form.cleaned_data["content"] # Use user logged into session as author
-            author = ExtendedUser.objects.get(user__username=request.user.username)
+            username = request.user.username
+            author = ExtendedUser.objects.get(user__username=username)
             Post.objects.create(content=content, author=author)
+            return HttpResponseRedirect(reverse('posts:profile', kwargs={'username': username}))
         else:
             # If submitted post is not valid (e.g. exceeds length), return back to form.
             return render(request, 'posts/create_post.html', context={ 'form': form })
