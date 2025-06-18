@@ -1,9 +1,49 @@
-<p>
-    {
-        following: [
-            {% for user in following %}
-            {{user.username}}
-            {% endfor %},
-        ]
-    }
-</p>
+{% load static %}
+<html>
+    <body>
+        <div class="panel_view">
+            <div class="following">
+                <div class="header">
+                    <h1>Following</h1>
+                </div>
+                <div class="profiles">
+                    {% for extended_user in following %}
+                        <div class="profile_card">
+                            <h3 class="username">@{{extended_user.user.username}}</h3>
+                            <p>{{extended_user.bio}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="add">
+                    <h1>Add</h1>
+                    <form>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+            <div class="sidebar">
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:feed' username=username %}">
+                        Feed
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:create_post' %}">
+                        Create Post
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:profile' username=username %}">
+                        Profile
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'registration:logout' %}">
+                        Log Out
+                    </a>
+                </h1>
+            </div>
+        </div>
+    </body>
+    <link rel="stylesheet" href="{% static 'posts/following.css' %}">
+</html>

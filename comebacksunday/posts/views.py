@@ -17,7 +17,7 @@ def following(request, username) -> HttpResponse:
         return render(
             request, 
             'posts/following.html', 
-            context={ 'following': extended_user.following.all() }
+            context={ 'username': username, 'following': extended_user.following.all() }
         )
     else:
         return HttpResponse('Unauthorized.')
