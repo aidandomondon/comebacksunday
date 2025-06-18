@@ -1,16 +1,45 @@
 {% load static %}
 <html>
     <body>
-        {% for post in posts %}
-        <div class="post">
-            <div class="post_header">
-                <h3 class="username">@{{post.author}}</h3>
-                <h3 class="timestamp">{{post.datetime.time}}</h3>
+        <div class="panel_view">
+            <div class="feed">
+                <h1 class="feed_header">Your Feed</h1>
+                <div class="posts">
+                    {% for post in posts %}
+                        <div class="post">
+                            <div class="post_header">
+                                <h3 class="username">@{{post.author}}</h3>
+                                <h3 class="timestamp">{{post.datetime.time}}</h3>
+                            </div>
+                            
+                            <p>{{post.content}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-            
-            <p>{{post.content}}</p>
+            <div class="sidebar">
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:create_post' %}">
+                        Create Post
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:profile' username=username %}">
+                        Profile
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'posts:following' username=username %}">
+                        Following
+                    </a>
+                </h1>
+                <h1 class="sidebar_item">
+                    <a href="{% url 'registration:logout' %}">
+                        Log Out
+                    </a>
+                </h1>
+            </div>
         </div>
-        {% endfor %}
     </body>
 </html>
 <link rel="stylesheet" href="{% static 'posts/feed.css' %}">

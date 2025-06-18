@@ -62,7 +62,10 @@ def feed(request, username) -> HttpResponse:
         return render(
             request,
             'posts/feed.html',
-            context={ 'posts': posts } 
+            context={ 
+                'username': username,
+                'posts': posts 
+            } 
         )
     else:
         return HttpResponse("Unauthorized.")
