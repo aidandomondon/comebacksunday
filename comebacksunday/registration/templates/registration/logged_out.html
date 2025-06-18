@@ -1,1 +1,15 @@
-<p>You have been logged out.</p>
+{% load static %}
+<html>
+    <body>
+        <p>Come Back Sunday!</p>
+        <div class="log_back_in">
+            <form action="{% url 'registration:login' %}" method="get">
+                <label>
+                    <p>Not done yet?</p>
+                    <input type="submit" value="Log back in." tabindex="0">
+                </label>
+            </form>
+        </div>
+    </body>
+    <link rel="stylesheet" href="{% static 'registration/logged_out.css'%}">
+</html>
