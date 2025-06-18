@@ -33,7 +33,7 @@ def user_overview(request, username) -> HttpResponse:
         context={ 
             'username': extended_user.user.username,
             'bio': extended_user.bio,
-            'posts': extended_user.post_set.all()
+            'posts': extended_user.post_set.order_by('-datetime').all()
         }
     )
 
