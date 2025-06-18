@@ -117,6 +117,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Change url users are redirected to after logging in from the default to the feed page
+LOGIN_REDIRECT_URL = "posts:feed"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

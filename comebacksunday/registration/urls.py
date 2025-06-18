@@ -8,3 +8,4 @@ urlpatterns = [
     path('login/', view=LoginView.as_view(), name='login'),
     path('logout/', view=logout_view, name='logout')
 ]
+print(LoginView.next_page)
