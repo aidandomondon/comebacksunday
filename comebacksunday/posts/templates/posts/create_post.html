@@ -1,5 +1,10 @@
+{% load static %}
+<h1>
+    New Post
+</h1>
 <form action="{% url 'posts:create_post' %}" method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Post">
+    <input type="submit" value="Post" tabindex="0">
 </form>
+<link rel="stylesheet" href="{% static 'posts/create_post.css' %}">

@@ -1,0 +1,42 @@
+body {
+    background-color: #b2ffb7;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+}
+
+div:has(label) {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+textarea, input {
+    color: black;
+    background-color: white;
+    outline: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+}
+
+textarea:focus,
+textarea:active,
+input:focus,
+input:active {
+    color: white;
+    background-color: black;
+}
+
+textarea:hover:not(:focus, :active), input:hover:not(:focus, :active) {
+    background-color: lightgray;
+}
