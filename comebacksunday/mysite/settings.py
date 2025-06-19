@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from .db_secrets import USER, PASSWORD, DEV_USER, DEV_PASSWORD
+from os.path import join
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-))3zqb2wugl^x724#6&y_z$9b6^)vo$@t)xk@5jfueeru)qt_y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost',    # for dev
@@ -96,7 +97,7 @@ DATABASES = {
 }
 
 # Change here to toggle which of the databases will be used as the default.
-ACTIVE_DATABASE = 'dev'
+ACTIVE_DATABASE = 'prod'
 DATABASES['default'] = DATABASES[ACTIVE_DATABASE]
 
 # Password validation
@@ -135,6 +136,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
+STATIC_ROOT = join(BASE_DIR, "static")
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder"
