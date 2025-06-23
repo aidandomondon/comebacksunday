@@ -105,6 +105,25 @@ def _countdown() -> Countdown:
         countdown_days = int(countdown_days.replace(' days', '').replace(' day', ''))
         countdown_hours, countdown_minutes, _ = map(int, countdown_hms.split('.')[0].split(':'))
         return Countdown(countdown_days, countdown_hours, countdown_minutes)
+    
+def _last_sunday() -> datetime:
+    # Returns a datetime representing the beginning of the last Sunday in Kiribati.
+    # If it is currently Sunday, returns the beginning of today in Kiribati
+    kiribati_tz = timezone(offset=timedelta(hours=+14))
+    kiribati_now = datetime.now(tz=kiribati_tz)
+    kiribati_beginning_of_today: datetime = datetime(
+        kiribati_now.year,
+        kiribati_now.month, 
+        kiribati_now.day, 
+        0, 0, 0,
+        tzinfo=kiribati_tz
+    )
+    if _is_sunday():
+        return kiribati_beginning_of_today
+    else:
+        # Find how many days in Kiribati since it was last sunday
+        kiritbati_days_since_sunday: int = kiribati_now.weekday()
+        return kiribati_beginning_of_today - timedelta(days=kiritbati_days_since_sunday)
 
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
@@ -119,6 +138,7 @@ def feed(request) -> HttpResponse:
     # Get all posts in this user's following list, put in reverse chronological order
     posts = Post.objects \
         .filter(author__in=extended_user.following.all()) \
+        .filter(datetime__gte=_last_sunday().strftime("%Y-%m-%d")) \
         .order_by('-datetime').all()
     
     # countdown to next sunday
