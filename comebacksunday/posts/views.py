@@ -66,9 +66,45 @@ def user_overview(request, username) -> HttpResponse:
         }
     )
 
-# To-do: take out username from `feed` view arguments. Interpolate from session instead.
-# Note: we wouldn't want to also do this with user_overview or following since those should
-# be viewable by other users as well.
+class Countdown:
+    def __init__(self, days: int, hours: int, minutes: int):
+        self.days = days
+        self.hours = hours
+        self.minutes = minutes
+
+    def is_zero(self) -> bool:
+        return self.days == 0 and self.hours == 0 and self.minutes == 0
+
+def _countdown() -> Countdown:
+    # Returns a timedelta representing the amount of time until it is Sunday anywhere on Earth.
+    # If it is currently Sunday anywhere on Earth, returns a timedelta of 0.
+    if _is_sunday():
+        return Countdown(0, 0, 0)
+    else:
+        kiribati_tz = timezone(offset=timedelta(hours=+14))
+        kiribati_now = datetime.now(tz=kiribati_tz)
+        # Find how many days until next sunday
+        kiritbati_days_until_sunday: int = 7 - kiribati_now.weekday()
+        # Add that to the beginning of today to find the beginning of next sunday
+        kiribati_beginning_of_today = datetime(
+            kiribati_now.year,
+            kiribati_now.month, 
+            kiribati_now.day, 
+            0, 0, 0,
+            tzinfo=kiribati_tz
+        )
+        kiribati_beginning_of_next_sunday: datetime = \
+            kiribati_beginning_of_today \
+            + timedelta(days=kiritbati_days_until_sunday)
+        # Subtract today to find the time until the beginning of next sunday
+        timedelta_to_next_sunday: timedelta = kiribati_beginning_of_next_sunday - kiribati_now
+
+        # Extract days, minutes, and seconds from the `timedelta`.
+        # str() method of `timedelta` returns 'day(s), h:m:s.ms'
+        countdown_days, countdown_hms = str(timedelta_to_next_sunday).split(', ')
+        countdown_days = int(countdown_days.replace(' days', '').replace(' day', ''))
+        countdown_hours, countdown_minutes, _ = map(int, countdown_hms.split('.')[0].split(':'))
+        return Countdown(countdown_days, countdown_hours, countdown_minutes)
 
 # Will return all posts ever made by every user the specified
 # user follows. LIKELY INEFFICIENT, REQUESTS SHOULD BE PAGINATED/CHUNKED
@@ -79,16 +115,22 @@ def feed(request) -> HttpResponse:
     """
     username = request.user.username
     extended_user = ExtendedUser.objects.get(user__username=username)
+    
     # Get all posts in this user's following list, put in reverse chronological order
     posts = Post.objects \
         .filter(author__in=extended_user.following.all()) \
         .order_by('-datetime').all()
+    
+    # countdown to next sunday
+    countdown: Countdown = _countdown() 
+    
     return render(
         request,
         'posts/feed.html',
         context={ 
             'username': username,
-            'posts': posts 
+            'posts': posts,
+            'countdown': countdown
         } 
     )
 

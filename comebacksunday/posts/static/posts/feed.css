@@ -9,6 +9,27 @@ body {
     min-height: 350px;
 }
 
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    #top_message {
+        margin-bottom: 0;
+    }
+
+    #countdown {
+        margin-top: 0;
+        display: flex;
+        flex-direction: row;
+        gap: 2em;
+
+        #d, #h, #m {
+            margin-top: 0;
+        }
+    }
+}
+
 .panel_view {
     display: flex;
     flex-wrap: nowrap;

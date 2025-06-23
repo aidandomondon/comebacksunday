@@ -1,9 +1,25 @@
 {% load static %}
 <html>
     <body>
+        <header>
+            <h1 id="top_message">
+                {% if countdown.is_zero %}
+                WELCOME BACK
+                {% else %}
+                COME BACK SUNDAY
+                {% endif %}
+            </h1>
+            {% if not countdown.is_zero %}
+                <div id="countdown">
+                    <h3 id="d">{{countdown.days}} day{% if countdown.days > 1 %}s{% endif %}</h3>
+                    <h3 id="h">{{countdown.hours}} hour{% if countdown.hours > 1 %}s{% endif %}</h3>
+                    <h3 id="m">{{countdown.minutes}} minute{% if countdown.minutes > 1 %}s{% endif %}</h3>
+                </div>
+            {% endif %}
+        </header>
         <div class="panel_view">
             <div class="feed">
-                <h1 class="feed_header">Your Feed</h1>
+                <h1 class="feed_header">Sunday</h1>
                 <div class="posts">
                     {% for post in posts %}
                         <div class="post">
