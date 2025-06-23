@@ -1,5 +1,6 @@
 body {
-    background-color: #b2ffb7;
+    font-family: sans-serif;
+    background-color: white; /* #b2ffb7; */
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -23,7 +24,7 @@ label {
 
 input {
     color: black;
-    background-color: white;
+    background-color: lightgray;
     outline: none;
     border-radius: 0;
     box-shadow: none;
@@ -33,11 +34,11 @@ input {
 
 input:focus,
 input:active {
-    color: white;
+    color: lightgray;
     background-color: black;
 }
 
 input:hover:not(:focus, :active),
 textarea:hover:not(:focus, :active) {
-    background-color: lightgray;
+    background-color: lightslategray;
 }

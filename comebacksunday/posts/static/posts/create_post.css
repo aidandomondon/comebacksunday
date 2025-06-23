@@ -1,5 +1,6 @@
 body {
-    background-color: #b2ffb7;
+    font-family: sans-serif;
+    background-color: white; /* #b2ffb7; */
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -22,7 +23,7 @@ div:has(label) {
 
 textarea, input {
     color: black;
-    background-color: white;
+    background-color: lightgray;
     outline: none;
     border-radius: 0;
     box-shadow: none;
@@ -34,9 +35,9 @@ textarea:active,
 input:focus,
 input:active {
     color: white;
-    background-color: black;
+    background-color: lightgray;
 }
 
 textarea:hover:not(:focus, :active), input:hover:not(:focus, :active) {
-    background-color: lightgray;
+    background-color: lightslategray;
 }

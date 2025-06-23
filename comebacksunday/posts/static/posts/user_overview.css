@@ -1,5 +1,6 @@
 body {
-    background-color: #b2ffb7;
+    font-family: sans-serif;
+    background-color: white; /* #b2ffb7; */
     width: 100vw;
     display: flex;
     flex-direction: column;
