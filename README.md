@@ -1,6 +1,6 @@
 # About
 
-This is code for the <i>backend</i> of ComeBackSunday. The <i>frontend</i> is coming soon.
+This is the source code for ComeBackSunday.
 
 Comebacksunday is a mental-health-forward social media platform designed to organically gather social media use to one, dedicated day of the week, freeing you up to live the other six.
 
@@ -10,7 +10,7 @@ After posting closes, you are free to look at the posts on your feed throughout 
 
 # Code
 
-This is a backend Python web application written in Django. It is currently hosted on PythonAnywhere.
+This is a Python web application written in Django. It is currently hosted on PythonAnywhere.
 
 - A [diagram](notesPostsApp.pdf) presents a high-level overview of the system design.
 - A [markdown file](notes/notes.md) notes future improvements.

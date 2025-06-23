@@ -5,8 +5,9 @@
 
 ## Potential future improvements
 
-### Remove user parameter from eligible views
-For views that would only be viewed by a single user, it likely makes sense to remove the `user` argument and interpolate the user from the session information. e.g. `user_overview`
+### Migrate frontend to ReactJS
+Frontend is currently implemented with Django templates. To improve modularity, re-implement the frontend in React
+and refactor the backend to use Django Rest Framework (DRF). This will make support for different interfaces (e.g. native mobile apps) possible.
 
 ### Move user creation into `registration` app
 User creation is more related to logging in/out than routine platform use actions like posting, viewing your feed, etc.
