@@ -116,3 +116,9 @@ h3.username {
         text-decoration-line: underline;
     }
 }
+
+#no_posts {
+    #follow_others {
+        color: black;
+    }
+}

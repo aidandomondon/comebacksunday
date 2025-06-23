@@ -137,8 +137,9 @@ def feed(request) -> HttpResponse:
     extended_user = ExtendedUser.objects.get(user__username=username)
     
     # Get all posts in this user's following list, put in reverse chronological order
+    following = extended_user.following.all()
     posts = Post.objects \
-        .filter(author__in=extended_user.following.all()) \
+        .filter(author__in=following) \
         .filter(datetime__gte=_last_sunday().strftime("%Y-%m-%d")) \
         .order_by('-datetime').all()
     
@@ -151,7 +152,8 @@ def feed(request) -> HttpResponse:
         context={ 
             'username': username,
             'posts': posts,
-            'countdown': countdown
+            'countdown': countdown,
+            'user_follows_others': len(following) > 0
         } 
     )
 

@@ -19,18 +19,29 @@
         </header>
         <div class="panel_view">
             <div class="feed">
-                <h1 class="feed_header">Sunday</h1>
+                <h1 class="feed_header">{% if not countdown.is_zero %}Last {% endif %}Sunday</h1>
                 <div class="posts">
-                    {% for post in posts %}
-                        <div class="post">
-                            <div class="post_header">
-                                <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></h3>
-                                <h3 class="timestamp">{{post.datetime.time}}</h3>
+                    {% if posts|length == 0 %}
+                        <h3 id="no_posts">
+                            No posts.
+                            {% if not user_follows_others %}
+                                <a id="follow_others" href="{% url 'posts:following' %}">
+                                    Follow friends.
+                                </a>
+                            {% endif %}
+                        </h3>
+                    {% else %}
+                        {% for post in posts %}
+                            <div class="post">
+                                <div class="post_header">
+                                    <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></h3>
+                                    <h3 class="timestamp">{{post.datetime.time}}</h3>
+                                </div>
+                                
+                                <p>{{post.content}}</p>
                             </div>
-                            
-                            <p>{{post.content}}</p>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             <div class="sidebar">

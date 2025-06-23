@@ -6,15 +6,21 @@
             <p id="bio">{{bio}}</p>
         </div>
         <div class="posts">
-            {% for post in posts %}
-                <div class="post">
-                    <div class="post_header">
-                        <h3 class="username">@{{post.author}}</h3>
-                        <h3 class="timestamp">{{post.datetime.time}}</h3>
+            {% if posts|length == 0 %}
+                <p id="no_posts">
+                    No posts yet.
+                </p>
+            {% else %}
+                {% for post in posts %}
+                    <div class="post">
+                        <div class="post_header">
+                            <h3 class="username">@{{post.author}}</h3>
+                            <h3 class="timestamp">{{post.datetime.time}}</h3>
+                        </div>
+                        <p>{{post.content}}</p>
                     </div>
-                    <p>{{post.content}}</p>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </body>
     <link rel="stylesheet" href="{% static 'posts/user_overview.css' %}">
