@@ -1,0 +1,12 @@
+body {
+    background-color: #b2ffb7;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    color: black;
+}

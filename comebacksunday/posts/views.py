@@ -7,6 +7,8 @@ from django.forms import Form, EmailField, EmailInput, CharField, PasswordInput,
 from django.contrib.auth.decorators import login_required
 from .forms import CreatePostForm
 from django.urls import reverse
+from datetime import datetime, timezone, timedelta
+from enum import Enum
 
 @login_required
 def following(request) -> HttpResponse:
@@ -105,24 +107,27 @@ def create_post(request) -> HttpResponse:
     """
     Creates a post from the logged-in user with the specified content.
     """
-    if request.method == "GET":
-        form = CreatePostForm()
-        return render(request, 'posts/create_post.html', context={ 'form': form })
-    elif request.method == "POST":
-        form = CreatePostForm(data=request.POST)
-        if form.is_valid():
-            content = form.cleaned_data["content"] # Use user logged into session as author
-            username = request.user.username
-            author = ExtendedUser.objects.get(user__username=username)
-            Post.objects.create(content=content, author=author)
-            return HttpResponseRedirect(reverse('posts:profile', kwargs={'username': username}))
-        else:
-            # If submitted post is not valid (e.g. exceeds length), return back to form.
+    if _is_sunday():
+        if request.method == "GET":
+            form = CreatePostForm()
             return render(request, 'posts/create_post.html', context={ 'form': form })
+        elif request.method == "POST":
+            form = CreatePostForm(data=request.POST)
+            if form.is_valid():
+                content = form.cleaned_data["content"] # Use user logged into session as author
+                username = request.user.username
+                author = ExtendedUser.objects.get(user__username=username)
+                Post.objects.create(content=content, author=author)
+                return HttpResponseRedirect(reverse('posts:profile', kwargs={'username': username}))
+            else:
+                # If submitted post is not valid (e.g. exceeds length), return back to form.
+                return render(request, 'posts/create_post.html', context={ 'form': form })
+        else:
+            response = HttpResponse("Unsupported method.", headers = {"Allowed": "GET, POST"})
+            response.status_code = 405
+            return response
     else:
-        response = HttpResponse("Unsupported method.", headers = {"Allowed": "GET, POST"})
-        response.status_code = 405
-        return response
+        return render(request, 'posts/come_back_later.html')
 
 # TO-DO: Migrate user creation to the `registration` app
 
@@ -183,3 +188,31 @@ def create_user(request) -> HttpResponse:
             )
     else:
         return HttpResponseBadRequest(f"Unsupported HTTP method: {request.method}")
+
+
+class ISOWeekday(Enum):
+    MONDAY = 1
+    TUESDAY = 2
+    WEDNESDAY = 3
+    THURSDAY = 4
+    FRIDAY = 5
+    SATURDAY = 6
+    SUNDAY = 7
+
+def _get_day_at(utc_offset) -> ISOWeekday:
+    # returns ISO number for day of the week at the timezone specified by its UTC offset
+    current_datetime = datetime.now(tz=timezone(timedelta(hours=utc_offset)))
+    current_weekday = ISOWeekday(current_datetime.date().isoweekday())
+    return current_weekday
+
+def _is_sunday() -> bool:
+    kiribati_day = _get_day_at(+14)
+    idlw_day = _get_day_at(-12)
+    return kiribati_day == ISOWeekday.SUNDAY or idlw_day == ISOWeekday.SUNDAY
+
+def is_sunday(request) -> HttpResponse:
+    """
+    Returns an HttpResponse with "Yes." if it is Sunday anywhere on Earth,
+    with "No." otherwise.
+    """
+    return HttpResponse("Yes." if _is_sunday() else "No.")
