@@ -9,6 +9,7 @@ from .forms import CreatePostForm
 from django.urls import reverse
 from datetime import datetime, timezone, timedelta
 from enum import Enum
+from django.contrib.auth import login
 
 @login_required
 def following(request) -> HttpResponse:
@@ -237,7 +238,8 @@ def create_user(request) -> HttpResponse:
                     user = user,
                     bio = cleaned_data["bio"],
                 )
-                return HttpResponse('Success.')
+                login(request, user=user)
+                return HttpResponseRedirect(reverse('posts:feed'))
             except IntegrityError as e:
                 return HttpResponse(e.__str__())
         else:
