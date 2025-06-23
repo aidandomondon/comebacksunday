@@ -1,0 +1,12 @@
+{% load static %}
+<html>
+    <body>
+        <div>
+            Couldn't find a user with that username.
+        </div>
+        <form action="{% url 'posts:following' %}" method="get">
+            <input type="submit" value="Back to following">
+        </form>
+    </body>
+    <link rel="stylesheet" href="{% static 'posts/user_does_not_exist.css' %}"
+</html>

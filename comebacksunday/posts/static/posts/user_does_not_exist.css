@@ -1,0 +1,48 @@
+body {
+    font-family: sans-serif;
+    background-color: white; /* #b2ffb7; */
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    justify-content: center;
+    min-width: 700px;
+    min-height: 350px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+}
+
+input {
+    color: black;
+    background-color: lightgray;
+    outline: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: 0;
+}
+
+input:focus,
+input:active {
+    color: lightgray;
+    background-color: black;
+}
+
+input:hover:not(:focus, :active) {
+    background-color: lightslategray;
+}
+
+form > label {
+    display: flex;
+    flex-direction: row;
+    gap: 0.25em;
+    * {
+        margin-top: 0em;
+        margin-bottom: 0em;
+    }
+}

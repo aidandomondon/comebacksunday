@@ -30,13 +30,19 @@ def follow(request) -> HttpResponse:
     Makes the logged-in user follow the user specified in the POST data.
     """
     if request.method == 'POST':
-        follower = ExtendedUser.objects.get(user__username=request.user.username)
-        followee_username = request.POST["followee_username"]
-        followee = ExtendedUser.objects.get(user__username=followee_username)
-        follower.following.add(followee)
-        return HttpResponseRedirect(reverse('posts:following'))
+        try:
+            follower = ExtendedUser.objects.get(user__username=request.user.username)
+            followee_username = request.POST["followee_username"]
+            followee = ExtendedUser.objects.get(user__username=followee_username)
+            follower.following.add(followee)
+            return HttpResponseRedirect(reverse('posts:following'))
+        except ExtendedUser.DoesNotExist:
+            return HttpResponseRedirect(reverse('posts:user_does_not_exist'))
     else:
         return HttpResponse("Unsupported HTTP method.")
+    
+def user_does_not_exist(request) -> HttpResponse:
+    return render(request, 'posts/user_does_not_exist.html')
     
 def unfollow(request) -> HttpResponse:
     """
