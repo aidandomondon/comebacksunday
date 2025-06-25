@@ -1,13 +1,15 @@
 body {
     font-family: sans-serif;
-    background-color: white; /* #b2ffb7; */
+    background-color: rgb(245, 245, 245);
     width: 100vw;
+    margin: 0 0 0 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.25em;
     min-width: 700px;
     min-height: 350px;
+    height: 100vh;
 }
 
 .panel_view {
@@ -20,6 +22,12 @@ body {
 
 .following {
     flex-grow: 4;
+
+    .header {
+        justify-content: left;
+        align-items: left;
+        width: fit-content;
+    }
 }
 
 .profiles {
@@ -31,12 +39,12 @@ body {
 }
 
 .profile_card {
-    background-color: white;
     color: black;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border: solid black;
+    border: solid black 0.1em;
+    border-radius: 5px;
     padding: 1em;
     width: 75%;
     align-items: center;
@@ -111,9 +119,10 @@ input {
     color: black;
     background-color: lightgray;
     outline: none;
-    border-radius: 0;
+    border-radius: 5px;
     box-shadow: none;
     border: 0;
+    padding: 0.5em;
 }
 
 input:focus,

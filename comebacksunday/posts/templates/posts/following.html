@@ -6,6 +6,7 @@
                 <div class="header">
                     <h1>Following</h1>
                 </div>
+                <p>Accounts you're currently following.</p>
                 <div class="profiles">
                     {% if following|length == 0 %}
                         <p id="no_followees">
@@ -30,7 +31,9 @@
                     {% endif %}
                 </div>
                 <div class="add">
-                    <h1>Add</h1>
+                    <div class="header">
+                        <h1>Follow User</h1>
+                    </div>
                     <p>Ask a friend for their username and follow them!</p>
                     <form action="{% url 'posts:follow' %}" method="post">
                         {% csrf_token %}
