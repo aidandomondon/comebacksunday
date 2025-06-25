@@ -17,55 +17,55 @@
                 </div>
             {% endif %}
         </header>
-        <div class="panel_view">
-            <div class="feed">
-                <h1 class="feed_header">{% if not countdown.is_zero %}Last {% endif %}Sunday</h1>
-                <div class="posts">
-                    {% if posts|length == 0 %}
-                        <h3 id="no_posts">
-                            No posts.
-                            {% if not user_follows_others %}
-                                <a id="follow_others" href="{% url 'posts:following' %}">
-                                    Follow friends.
-                                </a>
-                            {% endif %}
-                        </h3>
-                    {% else %}
-                        {% for post in posts %}
-                            <div class="post">
-                                <div class="post_header">
-                                    <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></h3>
-                                    <h3 class="timestamp">{{post.datetime.time}}</h3>
-                                </div>
-                                
-                                <p>{{post.content}}</p>
+        <div class="feed">
+            <div class="feed_header">
+                <h2>{% if not countdown.is_zero %}Last {% endif %}Sunday</h2>
+            </div>
+            <div class="posts">
+                {% if posts|length == 0 %}
+                    <h3 id="no_posts">
+                        No posts.
+                        {% if not user_follows_others %}
+                            <a id="follow_others" href="{% url 'posts:following' %}">
+                                Follow friends.
+                            </a>
+                        {% endif %}
+                    </h3>
+                {% else %}
+                    {% for post in posts %}
+                        <div class="post">
+                            <div class="post_header">
+                                <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></h3>
+                                <h3 class="timestamp">{{post.datetime.time}}</h3>
                             </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                            
+                            <p>{{post.content}}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </div>
-            <div class="sidebar">
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:create_post' %}">
-                        Create Post
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:profile' username=username %}">
-                        Profile
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:following' %}">
-                        Following
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'registration:logout' %}">
-                        Log Out
-                    </a>
-                </h1>
-            </div>
+        </div>
+        <div class="sidebar">
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:create_post' %}">
+                    Create Post
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:profile' username=username %}">
+                    Profile
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:following' %}">
+                    Following
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'registration:logout' %}">
+                    Log Out
+                </a>
+            </h2>
         </div>
     </body>
 </html>
