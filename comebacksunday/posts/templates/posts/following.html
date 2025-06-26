@@ -10,7 +10,7 @@
                 <div class="profiles">
                     {% if following|length == 0 %}
                         <p id="no_followees">
-                            You aren't following anyone right now. You can follow users below.
+                            You aren't following anyone right now. You can follow users to the right.
                         </p>
                     {% else %}
                         {% for extended_user in following %}
@@ -30,40 +30,40 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class="add">
-                    <div class="header">
-                        <h1>Follow User</h1>
-                    </div>
-                    <p>Ask a friend for their username and follow them!</p>
-                    <form action="{% url 'posts:follow' %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" placeholder="Username" name="followee_username">
-                        <input type="submit" value="Follow" tabindex="0">
-                    </form>
+            </div>
+            <div class="add">
+                <div class="header">
+                    <h1>Follow User</h1>
                 </div>
+                <p>Ask a friend for their username and follow them!</p>
+                <form action="{% url 'posts:follow' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Username" name="followee_username">
+                    <input type="submit" value="Follow" tabindex="0">
+                </form>
             </div>
-            <div class="sidebar">
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:feed' %}">
-                        Feed
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:create_post' %}">
-                        Create Post
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'posts:profile' username=username %}">
-                        Profile
-                    </a>
-                </h1>
-                <h1 class="sidebar_item">
-                    <a href="{% url 'registration:logout' %}">
-                        Log Out
-                    </a>
-                </h1>
-            </div>
+        </div>
+        <div class="sidebar">
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:feed' %}">
+                    Feed
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:create_post' %}">
+                    Create Post
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'posts:profile' username=username %}">
+                    Profile
+                </a>
+            </h2>
+            <h2 class="sidebar_item">
+                <a href="{% url 'registration:logout' %}">
+                    Log Out
+                </a>
+            </h2>
         </div>
     </body>
     <link rel="stylesheet" href="{% static 'posts/following.css' %}">
