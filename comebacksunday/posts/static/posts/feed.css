@@ -5,7 +5,8 @@ body {
     gap: 0.25em;
     min-width: 700px;
     min-height: 350px;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     height: 100vh;
     max-width: 700px;
     margin-left: auto;
