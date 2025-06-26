@@ -47,6 +47,10 @@ body {
         align-items: left;
         gap: 0.25em;
         overflow: scroll;
+
+        #no_followees {
+            margin-right: 1em;
+        }
     }
 }
 
