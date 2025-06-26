@@ -108,7 +108,7 @@ body {
     text-align: right;
     display: flex;
     flex-direction: column;
-    align-items: right;
+    align-items: last baseline;
 
     .header {
         text-wrap-mode: nowrap;
