@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: white; /* #b2ffb7; */
+    background-color: rgb(245, 245, 245);
     width: 100vw;
     display: flex;
     flex-direction: column;
@@ -8,7 +8,6 @@ body {
 }
 
 .post {
-    background-color: white;
     color: black;
     display: inline-block;
     border: solid black;
