@@ -1,0 +1,59 @@
+{% load static %}
+<html>
+    <body>
+        <p>COME BACK SUNDAY</p>
+        <div id="countdown">
+            <p id="days">d</p>
+            <p id="hours">h</p>
+            <p id="minutes">m</p>
+            <p id="seconds">s</p>
+        </div>
+    </body>
+    <link rel="stylesheet" href="{% static 'basepages/welcome_page.css' %}">
+    <script>
+        function setElementById(id, value) {
+            const element = document.getElementById(id);
+            element.innerHTML = value;
+        }
+
+        // Returns a Date object whose days, hours, minutes, etc. represent
+        // the days, hours, minutes, etc. until it next turns Sunday in UTC+14.
+        function calculateCountdown() {
+            // (1) Create Date object mimicking current time in kiribati
+            const kiribatiNow = new Date(Date.now());   // get the current date in UTC
+            kiribatiNow.setUTCHours(kiribatiNow.getUTCHours() + 14); // add 14 hours to simulate UTC+14
+            
+            // (2) Create Date object mimicking the start of the day next sunday in kiribati
+            // - Add num. days until sunday to get a datetime within the next sunday
+            const kiribatiDaysUntilSunday = (7 - kiribatiNow.getUTCDay()) % 7;
+            const kiribatiStartOfSunday = new Date(kiribatiNow);
+            kiribatiStartOfSunday.setUTCDate(kiribatiStartOfSunday.getUTCDate() + kiribatiDaysUntilSunday);
+            // - Set hours, minutes, sec, millisec to 0 to get to the start of the day
+            kiribatiStartOfSunday.setUTCHours(0); 
+            kiribatiStartOfSunday.setUTCMinutes(0);
+            kiribatiStartOfSunday.setUTCSeconds(0);
+            kiribatiStartOfSunday.setUTCMilliseconds(0);
+
+            // (3) Countdown = start of sunday in kiribati - current time in kiribati
+            const countdown = new Date(kiribatiStartOfSunday - kiribatiNow);
+            // subtract 1 day because Date objects measure time from January 1st not January 0th.
+            countdown.setUTCDate(countdown.getUTCDate() - 1);   
+            return countdown;
+        }
+
+        function setCountdown(date) {
+            setElementById('days', date.getUTCDate().toString());
+            setElementById('hours', date.getUTCHours().toString());
+            setElementById('minutes', date.getUTCMinutes().toString());
+            setElementById('seconds', date.getUTCSeconds().toString());
+        }
+
+        // Refreshes the countdown component
+        function refreshCountdown() {
+            const countdown = calculateCountdown();
+            setCountdown(countdown);
+        }
+
+        window.setInterval(refreshCountdown, 1000);
+    </script>
+</html>

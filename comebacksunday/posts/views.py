@@ -83,7 +83,7 @@ class Countdown:
         return self.days == 0 and self.hours == 0 and self.minutes == 0
 
 def _countdown() -> Countdown:
-    # Returns a timedelta representing the amount of time until it is Sunday anywhere on Earth.
+    # Returns a `Countdown` representing the amount of time until it is Sunday anywhere on Earth.
     # If it is currently Sunday anywhere on Earth, returns a timedelta of 0.
     if _is_sunday():
         return Countdown(0, 0, 0)
