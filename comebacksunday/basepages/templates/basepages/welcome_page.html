@@ -1,12 +1,81 @@
 {% load static %}
 <html>
     <body>
-        <p>COME BACK SUNDAY</p>
-        <div id="countdown">
-            <p id="days">d</p>
-            <p id="hours">h</p>
-            <p id="minutes">m</p>
-            <p id="seconds">s</p>
+        <div id="page-one" class="page-full">
+            <div id="title-block">
+                <div id="title">
+                    <h1>COME BACK SUNDAY</h1>
+                </div>
+                <div id="countdown">
+                    <div class="countdown-box">
+                        <p id="days">d</p>
+                        <p>Days</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="hours">h</p>
+                        <p>Hours</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="minutes">m</p>
+                        <p>Minutes</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="seconds">s</p>
+                        <p>Seconds</p>
+                    </div>
+                </div>
+            </div>
+            <div id="Menu">
+                <a href="{% url 'registration:login' %}"><p>LOG IN</p></a>
+                <a href="{% url 'posts:create_user' %}"><p>CREATE ACCOUNT</p></a>
+                <p onclick="scrollToPageTwo()">ABOUT</p>
+            </div>
+        </div>
+        <div id="page-two" class="page-full">
+            <div id="about">
+                <div id="about-header">
+                    <h1>About</h1>
+                </div>
+                <div id="about-body">
+                    <p>
+                        <i>Come Back Sunday</i> is the only social media platform 
+                        that is closed 6 days a week.
+                    </p>
+                    <p>
+                        The rules are simple. Monday-Saturday,
+                        the platform is closed for posting. No
+                        new posts can be made.
+                    </p>
+                    <p>
+                        On Sunday morning, the platform opens back up. Users can
+                        share with each other whatever thoughts or highlights they'd 
+                        like to share from their past week.
+                    </p>
+                    <p>
+                        At the end of the day, the platform closes back up, so that we can
+                        all recharge and enjoy our week.
+                    </p>
+                    <p>
+                        No ads.
+                    </p>
+                    <p>
+                        No recommended content.
+                    </p>
+                    <p>
+                        No algorithm.
+                    </p>
+                    <p>
+                        No AI integration.
+                    </p>
+                    <p>
+                        The goal?– <i>no more rotting.</i>
+                    </p>
+                    <p>
+                        One day a week, that's all we give ourselves.
+                    </p>
+                    <a id="get-started" href="{% url 'posts:create_user' %}"><p>Get Started</p></a>
+                </div>
+            </div>
         </div>
     </body>
     <link rel="stylesheet" href="{% static 'basepages/welcome_page.css' %}">
@@ -54,6 +123,13 @@
             setCountdown(countdown);
         }
 
+        refreshCountdown();
         window.setInterval(refreshCountdown, 1000);
+
+        // Scrolls page 2 into view
+        function scrollToPageTwo() {
+            const pageTwo = document.getElementById('page-two');
+            pageTwo.scrollIntoView({behavior: "smooth"});
+        }
     </script>
 </html>

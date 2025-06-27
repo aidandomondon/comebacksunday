@@ -1,3 +1,99 @@
-p {
-    color: green;
+body {
+    font-family: sans-serif;
+    background-color: rgb(245, 245, 245);
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: first baseline;
+    align-items: center;
+    overflow: scroll;
+}
+
+.page-full {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#page-one {
+    top: 0;
+}
+
+#page-two {
+    background-color: black;
+    color: rgb(245, 245, 245);
+    top: 100vh;
+}
+
+#title-block {
+    position: absolute;
+
+    #countdown {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+
+        .countdown-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            p {
+                font-size: x-large;
+                font-family: monospace;
+                margin-top: 0.5em;
+                margin-bottom: 0.5em;
+            }
+        }
+    }
+
+}
+
+#menu {
+    position: absolute;
+    top: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    * {
+        margin: 0.25em;
+    }
+
+    a,
+    p {
+        color: black;
+        text-decoration-line: none;
+        cursor: grab;
+    }
+
+    a:hover,
+    p:hover {
+        text-decoration-line: underline;
+    }
+}
+
+#about {
+    width: 50%;
+
+    #about-body {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        * {
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        #get-started {
+            align-self: center;
+            color: white;
+        }
+    }
 }
