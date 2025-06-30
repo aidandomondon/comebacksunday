@@ -25,9 +25,20 @@ textarea, input {
     color: black;
     background-color: lightgray;
     outline: none;
-    border-radius: 0;
+    border-radius: 5px;
     box-shadow: none;
     border: 0;
+}
+
+input {
+    border-radius: 25px;
+    padding: 0.25em 0.5em;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 40vh;
+    padding: 0.25em
 }
 
 textarea:focus,
@@ -35,7 +46,7 @@ textarea:active,
 input:focus,
 input:active {
     color: white;
-    background-color: lightgray;
+    background-color: black;
 }
 
 textarea:hover:not(:focus, :active), input:hover:not(:focus, :active) {
