@@ -1,42 +1,27 @@
 {% load static %}
 <html>
     <body>
-        <header>
-            <h1 id="top_message">
-                {% if countdown.is_zero %}
-                WELCOME BACK
-                {% else %}
-                COME BACK SUNDAY
-                {% endif %}
-            </h1>
-            {% if not countdown.is_zero %}
-                <div id="countdown">
-                    <h3 id="d">{{countdown.days}} day{% if countdown.days > 1 %}s{% endif %}</h3>
-                    <h3 id="h">{{countdown.hours}} hour{% if countdown.hours > 1 %}s{% endif %}</h3>
-                    <h3 id="m">{{countdown.minutes}} minute{% if countdown.minutes > 1 %}s{% endif %}</h3>
-                </div>
-            {% endif %}
-        </header>
         <div class="feed">
             <div class="feed_header">
                 <h2>{% if not countdown.is_zero %}Last {% endif %}Sunday</h2>
             </div>
             <div class="posts">
                 {% if posts|length == 0 %}
-                    <h3 id="no_posts">
-                        No posts.
+                    <div id="no_posts">
+                        <p>No posts to see!</p>
                         {% if not user_follows_others %}
+                        &nbsp;
                             <a id="follow_others" href="{% url 'posts:following' %}">
                                 Follow friends.
                             </a>
                         {% endif %}
-                    </h3>
+                    </div>
                 {% else %}
                     {% for post in posts %}
                         <div class="post">
                             <div class="post_header">
-                                <h3 class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></h3>
-                                <h3 class="timestamp">{{post.datetime.time}}</h3>
+                                <b class="username"><a href="{% url 'posts:profile' username=post.author.user.username%}">@{{post.author}}</a></b>
+                                <p class="timestamp">{{post.datetime.time}}</p>
                             </div>
                             
                             <p>{{post.content}}</p>
@@ -46,27 +31,109 @@
             </div>
         </div>
         <div class="sidebar">
-            <h2 class="sidebar_item">
+            <div class="sidebar_item">
+                <a>• </a>
                 <a href="{% url 'posts:create_post' %}">
-                    Create Post
+                    Feed
                 </a>
-            </h2>
-            <h2 class="sidebar_item">
+            </div>
+            <div 
+                class="sidebar_item {% if not countdown.is_zero %}disabled{% endif %}"
+                id="posts"
+            >
+                <div id="countdown">
+                    <div class="countdown-box">
+                        <p id="days">d</p>
+                        <p>d</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="hours">h</p>
+                        <p>h</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="minutes">m</p>
+                        <p>m</p>
+                    </div>
+                    <div class="countdown-box">
+                        <p id="seconds">s</p>
+                        <p>s</p>
+                    </div>
+                </div>
+                {% if countdown.is_zero %}
+                    <a href="{% url 'posts:create_post' %}">Post</a>
+                {% else %}
+                    <a>Post</a>
+                {% endif %}
+            </div>
+            <div class="sidebar_item">
                 <a href="{% url 'posts:profile' username=username %}">
                     Profile
                 </a>
-            </h2>
-            <h2 class="sidebar_item">
+            </div>
+            <div class="sidebar_item">
                 <a href="{% url 'posts:following' %}">
                     Following
                 </a>
-            </h2>
-            <h2 class="sidebar_item">
+            </div>
+            <div class="sidebar_item">
                 <a href="{% url 'registration:logout' %}">
                     Log Out
                 </a>
-            </h2>
+            </div>
         </div>
     </body>
+    <script>
+        function setElementById(id, value) {
+            const element = document.getElementById(id);
+            element.innerHTML = value;
+        }
+
+        // Returns a Date object whose days, hours, minutes, etc. represent
+        // the days, hours, minutes, etc. until it next turns Sunday in UTC+14.
+        function calculateCountdown() {
+            // (1) Create Date object mimicking current time in kiribati
+            const kiribatiNow = new Date(Date.now());   // get the current date in UTC
+            kiribatiNow.setUTCHours(kiribatiNow.getUTCHours() + 14); // add 14 hours to simulate UTC+14
+            
+            // (2) Create Date object mimicking the start of the day next sunday in kiribati
+            // - Add num. days until sunday to get a datetime within the next sunday
+            const kiribatiDaysUntilSunday = (7 - kiribatiNow.getUTCDay()) % 7;
+            const kiribatiStartOfSunday = new Date(kiribatiNow);
+            kiribatiStartOfSunday.setUTCDate(kiribatiStartOfSunday.getUTCDate() + kiribatiDaysUntilSunday);
+            // - Set hours, minutes, sec, millisec to 0 to get to the start of the day
+            kiribatiStartOfSunday.setUTCHours(0); 
+            kiribatiStartOfSunday.setUTCMinutes(0);
+            kiribatiStartOfSunday.setUTCSeconds(0);
+            kiribatiStartOfSunday.setUTCMilliseconds(0);
+
+            // (3) Countdown = start of sunday in kiribati - current time in kiribati
+            const countdown = new Date(kiribatiStartOfSunday - kiribatiNow);
+            // subtract 1 day because Date objects measure time from January 1st not January 0th.
+            countdown.setUTCDate(countdown.getUTCDate() - 1);   
+            return countdown;
+        }
+
+        function setCountdown(date) {
+            setElementById('days', date.getUTCDate().toString());
+            setElementById('hours', date.getUTCHours().toString());
+            setElementById('minutes', date.getUTCMinutes().toString());
+            setElementById('seconds', date.getUTCSeconds().toString());
+        }
+
+        // Refreshes the countdown component
+        function refreshCountdown() {
+            const countdown = calculateCountdown();
+            setCountdown(countdown);
+        }
+
+        refreshCountdown();
+        window.setInterval(refreshCountdown, 1000);
+
+        // Scrolls page 2 into view
+        function scrollToPageTwo() {
+            const pageTwo = document.getElementById('page-two');
+            pageTwo.scrollIntoView({behavior: "smooth"});
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'posts/feed.css' %}">
 </html>
-<link rel="stylesheet" href="{% static 'posts/feed.css' %}">
