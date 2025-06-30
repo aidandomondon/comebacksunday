@@ -63,10 +63,12 @@ def user_overview(request, username) -> HttpResponse:
     and all posts they have made.
     """
     extended_user = ExtendedUser.objects.get(user__username=username)
+    viewer_username = request.user.username if request.user else None
     return render(
         request,
         'posts/user_overview.html',
         context={ 
+            'viewer_username': viewer_username,
             'username': extended_user.user.username,
             'bio': extended_user.bio,
             'posts': extended_user.post_set.order_by('-datetime').all()

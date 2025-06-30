@@ -3,14 +3,11 @@ body {
     background-color: rgb(245, 245, 245);
     width: 100vw;
     gap: 0.25em;
-    min-width: 700px;
     min-height: 350px;
     margin-top: 0;
     margin-bottom: 0;
     height: 100vh;
     max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .feed {
@@ -44,6 +41,7 @@ body {
         border-top-style: solid;
         border-left-style: solid;
         border-right-style: solid;
+        z-index: 20;
 
         #no_posts {
             height: 100%;
@@ -117,7 +115,6 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: end;
     align-items: end;
 
     .sidebar_item {
