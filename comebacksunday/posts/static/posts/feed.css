@@ -27,6 +27,11 @@ body {
         justify-content: left;
         align-items: center;
         width: 55%;
+
+        * {
+            margin-top: 0.35em;
+            margin-bottom: 0.35em;
+        }
     }
 
     .posts {

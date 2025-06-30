@@ -20,7 +20,8 @@ textarea {
     color: black;
     background-color: lightgray;
     outline: none;
-    border-radius: 5px;
+    border-radius: 25px;
+    padding: 0.25em 0.5em;
     box-shadow: none;
     border: 0;
 }

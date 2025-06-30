@@ -2,9 +2,10 @@
 <html>
     <body>
         <div class="header">
-            <h3 id="username">@{{username}}</h3>
+            <h1 id="username">@{{username}}</h1>
             <p id="bio">{{bio}}</p>
         </div>
+        <div id="posts_header"><h2>Posts</h2></div>
         <div class="posts">
             {% if posts|length == 0 %}
                 <p id="no_posts">
@@ -53,7 +54,7 @@
                 {% if countdown.is_zero %}
                     <a href="{% url 'posts:create_post' %}">Post</a>
                 {% else %}
-                    <a>Post</a>
+                    <a>&nbsp;Post</a>
                 {% endif %}
             </div>
             <div class="sidebar_item">

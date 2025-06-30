@@ -25,9 +25,15 @@ textarea {
     border: 0;
 }
 
+input {
+    border-radius: 25px;
+    padding: 0.25em 0.5em;
+}
+
 textarea {
     resize: vertical;
     max-height: 40vh;
+    padding: 0.25em
 }
 
 input:focus,

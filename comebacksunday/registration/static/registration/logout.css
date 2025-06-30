@@ -1,6 +1,6 @@
 body {
     font-family: sans-serif;
-    background-color: white; /* #b2ffb7; */
+    background-color: rgb(245, 245, 245); /* #b2ffb7; */
     width: 100vw;
     display: flex;
     flex-direction: column;
