@@ -8,6 +8,10 @@ body {
     justify-content: center;
 }
 
+.page_title {
+    font-weight: 100;
+}
+
 form {
     display: flex;
     flex-direction: column;

@@ -15,6 +15,10 @@ form {
     gap: 0.25em;
 }
 
+.page_title {
+    font-weight: 100;
+}
+
 input,
 textarea {
     color: black;
