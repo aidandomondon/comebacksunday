@@ -39,6 +39,14 @@ body {
         justify-content: left;
         align-items: left;
         width: fit-content;
+
+        * {
+            font-weight: 250;
+        }
+    }
+
+    p {
+        font-weight: 250;
     }
 
     .profiles {
@@ -46,6 +54,10 @@ body {
         flex-direction: column;
         align-items: left;
         overflow: scroll;
+
+        p {
+            font-weight: 250;
+        }
 
         #no_followees {
             margin-right: 1em;
@@ -105,6 +117,7 @@ body {
         }
     }
 }
+
 .profile_card:last-child {
     border-color: #D9D9D9;
     border-width: 0.1em;
@@ -122,6 +135,14 @@ body {
 
     .header {
         text-wrap-mode: nowrap;
+
+        * {
+            font-weight: 250;
+        }
+    }
+
+    p {
+        font-weight: 250;
     }
 
     form {
