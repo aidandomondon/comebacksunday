@@ -1,9 +1,13 @@
 {% load static %}
-
-<form action="{% url 'registration:logout' %}" method="post">                                                        
-    {% csrf_token %}                                                                                                 
-    <label>Are you sure you want to log out?                                                                         
-        <input type="submit" value="Log Out" tabindex="0">                                                                        
-    </label>                                                                                                         
-</form>
-<link rel="stylesheet" href="{% static 'registration/logout.css' %}">
+<html>
+    <title>Come Back Sunday | Logging Out</title>
+    <body>
+        <form action="{% url 'registration:logout' %}" method="post">                                                        
+            {% csrf_token %}                                                                                                 
+            <label>Are you sure you want to log out?                                                                         
+                <input type="submit" value="Log Out" tabindex="0">                                                                        
+            </label>                                                                                                         
+        </form>
+        <link rel="stylesheet" href="{% static 'registration/logout.css' %}">
+    </body>
+</html>

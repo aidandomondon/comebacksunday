@@ -1,10 +1,15 @@
 {% load static %}
-<h1 class="page_title">
-    New Post
-</h1>
-<form action="{% url 'posts:create_post' %}" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Post" tabindex="0">
-</form>
-<link rel="stylesheet" href="{% static 'posts/create_post.css' %}">
+<html>
+    <title>Come Back Sunday | New Post</title>
+    <body>
+        <h1 class="page_title">
+            New Post
+        </h1>
+        <form action="{% url 'posts:create_post' %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Post" tabindex="0">
+        </form>
+        <link rel="stylesheet" href="{% static 'posts/create_post.css' %}">
+    </body>
+</html>

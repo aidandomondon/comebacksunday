@@ -1,5 +1,13 @@
 {% load static %}
 <html>
+    
+    <title>
+        {% if viewer_username == username %}
+            Come Back Sunday | Profile
+        {% else %}
+            Come Back Sunday | @{{username}}'s Profile
+        {% endif %}
+    </title>
     <body>
         <div class="header">
             <h1 id="username">@{{username}}</h1>

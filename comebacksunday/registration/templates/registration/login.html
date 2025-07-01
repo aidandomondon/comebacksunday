@@ -1,43 +1,49 @@
 {% load static %}
+<html>
+    <title>Come Back Sunday | Log In</title>
+    <body>
 
-{% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-        <p>
-            Your account doesn't have access to this page. To proceed,
-            please login with an account that has access.
-        </p>
-    {% else %}
-        <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+        {% if next %}
+            {% if user.is_authenticated %}
+                <p>
+                    Your account doesn't have access to this page. To proceed,
+                    please login with an account that has access.
+                </p>
+            {% else %}
+                <p>Please login to see this page.</p>
+            {% endif %}
+        {% endif %}
 
-<h1 class="page_title">Log In</h1>
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <td>{{ form.username.label_tag }}</td>
-            <td>{{ form.username }}</td>
-        </tr>
-        <tr>
-            <td>{{ form.password.label_tag }}</td>
-            <td>{{ form.password }}</td>
-        </tr>
-    </table>
 
-    <input type="submit" value="Log in" tabindex="0">
-    <input type="hidden" name="next" value="{{ next }}">
-</form>
+        <h1 class="page_title">Log In</h1>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+            </table>
 
-<!--Redirect new users to registration page-->
-<form action="{% url 'posts:create_user' %}">
-    <label>
-        Don't have an account yet?
-        <input type="submit" value="Create account" tabindex="0">
-    </label>
-</form>
-<link rel="stylesheet" href="{% static 'registration/login.css' %}">
+            <input type="submit" value="Log in" tabindex="0">
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+
+        <!--Redirect new users to registration page-->
+        <form action="{% url 'posts:create_user' %}">
+            <label>
+                Don't have an account yet?
+                <input type="submit" value="Create account" tabindex="0">
+            </label>
+        </form>
+    </body>
+    <link rel="stylesheet" href="{% static 'registration/login.css' %}">
+</html>
