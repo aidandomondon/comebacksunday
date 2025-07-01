@@ -64,16 +64,17 @@ body {
         justify-content: space-between;
         width: 100%;
 
-        b {
+        b, p {
             text-wrap-mode: nowrap;
             margin-top: 0em;
             margin-bottom: 0em;
         }
     }
 
-    p {
+    .post_content {
         margin-top: 0em;
         margin-bottom: 0em;
+        overflow-wrap: anywhere;
     }
 }
 
