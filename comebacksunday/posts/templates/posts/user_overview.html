@@ -59,7 +59,7 @@
             </div>
             <div class="sidebar_item">
                 {% if viewer_username == username %}
-                    <a>• </a>
+                    <p id="active_tab_indicator">•</p>
                 {% endif %}
                 <a href="{% url 'posts:profile' username=viewer_username %}">
                     Profile

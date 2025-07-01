@@ -127,6 +127,20 @@ body {
         margin-right: 1.5em;
         padding-top: 0.5em;
         padding-bottom: 0.25em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: end;
+        gap: 0.5em;
+
+        * {
+            margin-top: 0em;
+            margin-bottom: 0em;
+        }
+
+        #active_tab_indicator {
+            font-weight: 250;
+        }
 
         a {
             font-weight: 100;
