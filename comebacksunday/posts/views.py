@@ -64,6 +64,13 @@ def user_overview(request, username) -> HttpResponse:
     """
     extended_user = ExtendedUser.objects.get(user__username=username)
     viewer_username = request.user.username if request.user else None
+
+    # Get user's posts
+    posts = extended_user.post_set.order_by('-datetime').all()
+    # Format posts' dates
+    for post in posts:
+        post.timestamp = post.datetime.strftime("%I:%M %p").lstrip("0")
+
     return render(
         request,
         'posts/user_overview.html',
@@ -71,7 +78,7 @@ def user_overview(request, username) -> HttpResponse:
             'viewer_username': viewer_username,
             'username': extended_user.user.username,
             'bio': extended_user.bio,
-            'posts': extended_user.post_set.order_by('-datetime').all()
+            'posts': posts
         }
     )
 
@@ -150,6 +157,9 @@ def feed(request) -> HttpResponse:
         .filter(author__in=following) \
         .filter(datetime__gte=_last_sunday().strftime("%Y-%m-%d")) \
         .order_by('-datetime').all()
+    # Format posts' dates
+    for post in posts:
+        post.timestamp = post.datetime.strftime("%I:%M %p").lstrip("0")
     
     # countdown to next sunday
     countdown: Countdown = _countdown() 
