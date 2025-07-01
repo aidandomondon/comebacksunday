@@ -142,3 +142,20 @@ body {
         }
     }
 }
+
+#logo {
+    position: absolute;
+    left: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1.5em;
+    align-content: left;
+
+    a {
+        color: black;
+        font-weight: 100;
+        text-decoration-line: none;
+    }
+}
