@@ -1,6 +1,6 @@
 # About
 
-This is the source code for ComeBackSunday.
+This is the source code for [ComeBackSunday](http://comebacksunday.pythonanywhere.com).
 
 ComeBackSunday is a mental-health-forward social media platform designed to organically gather social media use to one, dedicated day of the week, freeing you up to live the other six.
 
@@ -9,6 +9,8 @@ On ComeBackSunday, posting opens as soon as it becomes Sunday anywhere on earth,
 After posting closes, you are free to _look_ at your feed throughout the week, but you can rest assured that there won't be any new additions until next Sunday!
 
 # Code
+
+ComeBackSunday is an open-source social network. You are free to deploy your own instance on your own servers.
 
 This is a Python web application written in Django. It is currently hosted on PythonAnywhere.
 
