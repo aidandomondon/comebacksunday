@@ -2,11 +2,11 @@
 
 This is the source code for ComeBackSunday.
 
-Comebacksunday is a mental-health-forward social media platform designed to organically gather social media use to one, dedicated day of the week, freeing you up to live the other six.
+ComeBackSunday is a mental-health-forward social media platform designed to organically gather social media use to one, dedicated day of the week, freeing you up to live the other six.
 
-On Comebacksunday, posting opens when as soon as it is Sunday anywhere on earth, and closes when it is no longer Sunday anywhere on earth.
+On ComeBackSunday, posting opens as soon as it becomes Sunday anywhere on earth, and closes when it is no longer Sunday anywhere on earth.
 
-After posting closes, you are free to look at the posts on your feed throughout the week, but once you've made your way through them all, there won't be any more to look at until Sunday!
+After posting closes, you are free to _look_ at your feed throughout the week, but you can rest assured that there won't be any new additions until next Sunday!
 
 # Code
 
